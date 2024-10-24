@@ -1,12 +1,19 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import UserData from "./components/UserData";
 const API = "https://jsonplaceholder.typicode.com/users";
 const App =() =>{
+
+  const [users, setUsers] = useState([]);
   useEffect(()=>{
 
     const fetchUsers = async(url)=>{
       try {
         const res = await fetch(url);
         const data = await res.json();
+
+        if(data.length >0){
+          setUsers(data);
+        }
         console.log(data);
       }catch(e){
         console.log(e)
@@ -15,7 +22,20 @@ const App =() =>{
     fetchUsers(API);
   }, [])
   return (
-    <h1>React Table</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <UserData users={users}/>
+      </tbody>
+    </table>
   )
 }
 export default App
